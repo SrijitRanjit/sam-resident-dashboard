@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAM Resident Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">SAM MANAGEMENT</p>
+        <h1>Resident Dashboard</h1>
+      </div>
+      <button id="logoutButton" class="button secondary">Sign out</button>
+    </header>
+
+    <section id="loginSection" class="panel login-panel">
+      <h2>Sign in</h2>
+      <p class="muted">Sign in to access resident records.</p>
+      <form id="loginForm">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit" class="button primary full-width">Sign in</button>
+      </form>
+      <p id="loginMessage" class="message" role="status"></p>
+    </section>
+
+    <section id="dashboardSection" class="hidden">
+      <div class="panel stat">
+        <span class="muted">Total residents</span>
+        <strong id="residentCount">0</strong>
+        <span class="muted">Showing resident accommodation bookings below</span>
+      </div>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2>Residents and accommodation</h2>
+            <p class="muted">Each row represents an accommodation booking.</p>
+          </div>
+          <button id="refreshButton" class="button secondary">Refresh</button>
+        </div>
+
+        <label for="searchInput">Search residents or bookings</label>
+        <input id="searchInput" type="search"
+          placeholder="Name, resident ID, room, camp or room type">
+
+        <p id="tableMessage" class="message" role="status"></p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Resident ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Room number</th>
+                <th>Room ID</th>
+                <th>Camp ID</th>
+                <th>From date</th>
+                <th>End date</th>
+                <th>Room type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="residentTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Add resident and accommodation</h2>
+        <p class="muted">
+          This creates a resident and their first accommodation booking.
+        </p>
+
+        <form id="addResidentForm" class="resident-form">
+          <div>
+            <label for="resId">Resident ID *</label>
+            <input id="resId" type="number" step="1" required>
+          </div>
+          <div>
+            <label for="firstName">First name *</label>
+            <input id="firstName" type="text" maxlength="150" required>
+          </div>
+          <div>
+            <label for="lastName">Last name</label>
+            <input id="lastName" type="text" maxlength="150">
+          </div>
+          <div>
+            <label for="roomNumber">Room number</label>
+            <input id="roomNumber" type="text" maxlength="100">
+          </div>
+          <div>
+            <label for="roomId">Room ID</label>
+            <input id="roomId" type="number" step="1">
+          </div>
+          <div>
+            <label for="campId">Camp ID</label>
+            <input id="campId" type="number" step="1">
+          </div>
+          <div>
+            <label for="inDate">Accommodation from *</label>
+            <input id="inDate" type="date" required>
+          </div>
+          <div>
+            <label for="outDate">Accommodation end *</label>
+            <input id="outDate" type="date" required>
+          </div>
+          <div>
+            <label for="roomType">Room type *</label>
+            <input id="roomType" type="text" maxlength="100"
+              placeholder="e.g. Standard" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="button primary">Add resident and booking</button>
+          </div>
+        </form>
+        <p id="addMessage" class="message" role="status"></p>
+      </section>
+
+      <section id="editBookingSection" class="panel hidden">
+        <div class="section-heading">
+          <div>
+            <h2>Edit accommodation booking</h2>
+            <p id="editBookingSubtitle" class="muted"></p>
+          </div>
+          <button id="cancelEditButton" type="button" class="button secondary">
+            Cancel
+          </button>
+        </div>
+
+        <form id="editBookingForm" class="resident-form">
+          <input id="editBookingId" type="hidden">
+          <div>
+            <label for="editInDate">Accommodation from *</label>
+            <input id="editInDate" type="date" required>
+          </div>
+          <div>
+            <label for="editOutDate">Accommodation end *</label>
+            <input id="editOutDate" type="date" required>
+          </div>
+          <div>
+            <label for="editRoomType">Room type *</label>
+            <input id="editRoomType" type="text" maxlength="100" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="button primary">Save changes</button>
+          </div>
+        </form>
+        <p id="editMessage" class="message" role="status"></p>
+      </section>
+    </section>
+
+    <footer>Private resident management portal</footer>
+  </main>
+</body>
+</html>
